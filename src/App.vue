@@ -1,26 +1,64 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Header class="app__header"></Header>
+  <main class="app__main">
+    <ActiveWord v-if="inFindWord"></ActiveWord>
+    <h2 v-else>
+      Card Game
+    </h2>
+  </main>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import Header from './components/Header.vue';
+import ActiveWord from './components/ActiveWord.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    Header,
+    ActiveWord,
+  },
+  computed: {
+    inFindWord() {
+      return this.$store.state.modes.inFindWordMode;
+    },
+    inCardGame() {
+      return this.$store.state.modes.inCardGameMode;
+    },
+  },
+  mounted() {
+    this.$store.commit({
+      type: 'changeMode',
+      mode: 'inFindWordMode',
+    });
   },
 };
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  body,
+  h1,
+  h2,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .app {
+    &__header {
+      height: 100px;
+      margin-bottom: 20px;
+    }
+  }
 </style>

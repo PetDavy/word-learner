@@ -2,6 +2,7 @@
   <Header class="app__header"></Header>
   <main class="app__main">
     <ActiveWord v-if="inFindWord"></ActiveWord>
+    <SavedWordsList v-else-if="inWordsShowMode"></SavedWordsList>
     <h2 v-else>
       Card Game
     </h2>
@@ -12,12 +13,15 @@
 <script>
 import Header from './components/Header.vue';
 import ActiveWord from './components/ActiveWord.vue';
+import SavedWordsList from './components/SavedWordsList.vue';
+import { getWords } from './api/api';
 
 export default {
   name: 'App',
   components: {
     Header,
     ActiveWord,
+    SavedWordsList,
   },
   computed: {
     inFindWord() {
@@ -26,8 +30,16 @@ export default {
     inCardGame() {
       return this.$store.state.modes.inCardGameMode;
     },
+    inWordsShowMode() {
+      return this.$store.state.modes.inWordsShowMode;
+    },
   },
   mounted() {
+    this.$store.commit({
+      type: 'loadSavedWords',
+      words: getWords(),
+    });
+
     this.$store.commit({
       type: 'changeMode',
       mode: 'inFindWordMode',

@@ -18,6 +18,20 @@ export async function getWord(word) {
   return result;
 }
 
+export function getWords() {
+  const words = localStorage.getItem('words');
+
+  if (!words) {
+    return [];
+  }
+
+  return words.split(',');
+}
+
+export function setWords(words) {
+  localStorage.setItem('words', words);
+}
+
 export function getSynonyms() {
   return 'Synonyms';
 }

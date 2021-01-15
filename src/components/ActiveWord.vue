@@ -21,12 +21,32 @@
         </p>
       </li>
     </ul>
+
+    <button
+      type="button"
+      @click="addWord"
+      v-if="activeWord"
+    >
+      add word
+    </button>
   </div>
 </template>
 
 <script>
+import { setWords } from '../api/api';
+
 export default {
   name: 'ActiveWord',
+  methods: {
+    addWord() {
+      this.$store.commit({
+        type: 'addWord',
+        newWord: this.$store.state.activeWord.word,
+      });
+
+      setWords(this.$store.state.savedWords);
+    },
+  },
   computed: {
     activeWord() {
       return this.$store.state.activeWord.word;

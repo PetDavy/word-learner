@@ -4,6 +4,13 @@
     <button
       type="button"
       class="header__btn"
+      @click="showSavedWords"
+    >
+      My Words
+    </button>
+    <button
+      type="button"
+      class="header__btn"
       @click="playCardGame"
     >
       Card Game
@@ -24,6 +31,12 @@ export default {
       this.$store.commit({
         type: 'changeMode',
         mode: 'inCardGameMode',
+      });
+    },
+    showSavedWords() {
+      this.$store.commit({
+        type: 'changeMode',
+        mode: 'inWordsShowMode',
       });
     },
   },

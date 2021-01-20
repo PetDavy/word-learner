@@ -14,7 +14,7 @@
 import Header from './components/Header.vue';
 import ActiveWord from './components/ActiveWord.vue';
 import SavedWordsList from './components/SavedWordsList.vue';
-import { getWords } from './api/api';
+import { getSavedWords } from './api/api';
 
 export default {
   name: 'App',
@@ -37,7 +37,7 @@ export default {
   mounted() {
     this.$store.commit({
       type: 'loadSavedWords',
-      words: getWords(),
+      words: getSavedWords(),
     });
 
     this.$store.commit({
@@ -62,9 +62,14 @@ export default {
   body,
   h1,
   h2,
-  p {
+  p,
+  ul {
     margin: 0;
     padding: 0;
+  }
+
+  ul {
+    list-style: none;
   }
 
   .app {

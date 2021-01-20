@@ -18,7 +18,7 @@ export async function getWord(word) {
   return result;
 }
 
-export function getWords() {
+export function getSavedWords() {
   const words = localStorage.getItem('words');
 
   if (!words) {

@@ -26,8 +26,10 @@ export default createStore({
       state.savedWords = payload.words;
     },
     addWord(state, payload) {
-      console.log(state.savedWords);
       state.savedWords = [...state.savedWords, payload.newWord];
+    },
+    deleteWord(state, payload) {
+      state.savedWords = state.savedWords.filter((word, index) => index !== payload.wordIndex);
     },
   },
   actions: {

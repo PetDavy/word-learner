@@ -11,21 +11,27 @@
         <p class="activeWord__partOfSpeech">
           {{meaning.partOfSpeech}}
         </p>
-        <p>
-          Definition:
-          {{meaning.definitions[0].definition}}
-        </p>
-        <p>
-          Example:
-          {{meaning.definitions[0].example}}
-        </p>
+        <div
+          v-for="{definition, example} in meaning.definitions"
+          :key="definition"
+          class="activeWord__info"
+        >
+          <p v-if="definition">
+            Definition:
+            {{definition}}
+          </p>
+          <p v-if="example">
+            Example:
+            {{example}}
+          </p>
+        </div>
       </li>
     </ul>
 
     <button
       type="button"
       @click="addWord"
-      v-if="activeWord"
+      v-if="meanings.length"
     >
       add word
     </button>
@@ -66,6 +72,12 @@ export default {
       padding: 10px 0;
       font-size: 15px;
       color: #666;
+    }
+
+    &__info {
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      border-bottom: 1px dashed #ccc;
     }
   }
 </style>

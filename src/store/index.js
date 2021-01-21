@@ -11,6 +11,8 @@ export default createStore({
     modes: baseModes,
     activeWord: { word: 'No Word', meanings: [] },
     savedWords: [],
+    shownCards: [],
+    currentCards: [],
   },
   mutations: {
     changeMode(state, payload) {
@@ -29,7 +31,26 @@ export default createStore({
       state.savedWords = [...state.savedWords, payload.newWord];
     },
     deleteWord(state, payload) {
+      if (state.currentCards.includes(state.savedWords[payload.wordIndex])) {
+        state.currentCards = [];
+      }
+
       state.savedWords = state.savedWords.filter((word, index) => index !== payload.wordIndex);
+    },
+    changeCurrentCards(state) {
+      if (!state.currentCards.length && state.savedWords.length) {
+        state.currentCards = [...state.savedWords].sort(() => (
+          Math.random() - 0.5
+        )).splice(0, 4);
+      }
+    },
+  },
+  getters: {
+    wordsCount(state) {
+      return state.savedWords.length;
+    },
+    currentCards(state) {
+      return state.currentCards;
     },
   },
   actions: {

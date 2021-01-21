@@ -1,11 +1,9 @@
 <template>
-  <Header class="app__header"></Header>
+  <Header class="app__header" />
   <main class="app__main">
-    <ActiveWord v-if="inFindWord"></ActiveWord>
-    <SavedWordsList v-else-if="inWordsShowMode"></SavedWordsList>
-    <h2 v-else>
-      Card Game
-    </h2>
+    <ActiveWord v-if="inFindWord" />
+    <SavedWordsList v-else-if="inWordsShowMode" />
+    <CardGame v-else/>
   </main>
 
 </template>
@@ -14,6 +12,7 @@
 import Header from './components/Header.vue';
 import ActiveWord from './components/ActiveWord.vue';
 import SavedWordsList from './components/SavedWordsList.vue';
+import CardGame from './components/CardGame.vue';
 import { getSavedWords } from './api/api';
 
 export default {
@@ -22,6 +21,7 @@ export default {
     Header,
     ActiveWord,
     SavedWordsList,
+    CardGame,
   },
   computed: {
     inFindWord() {

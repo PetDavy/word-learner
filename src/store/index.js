@@ -6,12 +6,15 @@ const baseModes = {
   inWordsShowMode: false,
 };
 
+const CARDS_AMOUNT = 1;
+
 export default createStore({
   state: {
     modes: baseModes,
     activeWord: { word: 'No Word', meanings: [] },
     savedWords: [],
     shownCards: [],
+    availableWords: [],
     currentCards: [],
   },
   mutations: {
@@ -38,19 +41,30 @@ export default createStore({
       state.savedWords = state.savedWords.filter((word, index) => index !== payload.wordIndex);
     },
     changeCurrentCards(state) {
-      if (!state.currentCards.length && state.savedWords.length) {
-        state.currentCards = [...state.savedWords].sort(() => (
+      state.availableWords = state.savedWords.filter((word) => (
+        !state.currentCards.includes(word)
+      ));
+
+      if (state.currentCards.length < CARDS_AMOUNT && state.savedWords.length) {
+        state.availableWords = [...state.availableWords, ...state.currentCards];
+
+        state.currentCards = state.availableWords.sort(() => (
           Math.random() - 0.5
-        )).splice(0, 4);
+        )).splice(0, CARDS_AMOUNT);
+
+        state.shownCards = state.currentCards;
       }
     },
   },
   getters: {
     wordsCount(state) {
-      return state.savedWords.length;
+      return state.currentCards.length || state.savedWords.length > state.shownCards.length;
     },
     currentCards(state) {
       return state.currentCards;
+    },
+    availableWords(state) {
+      return state.availableWords.sort(() => Math.random() - 0.5);
     },
   },
   actions: {

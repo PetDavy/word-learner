@@ -12,10 +12,17 @@ export async function getWord(word) {
       throw new Error();
     }
   } catch {
-    return [{ word: 'Not Found', meanings: [] }];
+    return [{ word: 'Not Found', meanings: [] }]; // need to add error flag
   }
 
   return result;
+}
+
+export function getMeanings(words) {
+  const wordsData = words.map((word) => getWord(word));
+  const loadedWords = Promise.all(wordsData);
+
+  return loadedWords.then((result) => result.map((item) => item[0]));
 }
 
 export function getSavedWords() {

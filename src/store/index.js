@@ -42,18 +42,21 @@ export default createStore({
     },
     changeCurrentCards(state) {
       state.availableWords = state.savedWords.filter((word) => (
-        !state.currentCards.includes(word)
+        !state.shownCards.includes(word)
       ));
 
       if (state.currentCards.length < CARDS_AMOUNT && state.savedWords.length) {
-        state.availableWords = [...state.availableWords, ...state.currentCards];
+        // state.availableWords = [...state.availableWords, ...state.currentCards];
 
         state.currentCards = state.availableWords.sort(() => (
           Math.random() - 0.5
         )).splice(0, CARDS_AMOUNT);
 
-        state.shownCards = state.currentCards;
+        state.shownCards = [...state.shownCards, ...state.currentCards];
       }
+    },
+    clearCurrentCards(state) {
+      state.currentCards = [];
     },
   },
   getters: {

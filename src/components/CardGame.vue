@@ -17,11 +17,16 @@
     <div class="CardGame__answers">
       <ul>
         <li
-          v-for="data in choiceData"
+          v-for="data in exampleData"
           :key="data"
-          style="padding-bottom: 5px; border-bottom: 1px solid #000;"
+          :class="[
+            'CardGame__example',
+            {'CardGame__example--correct': correctAnswers.includes(data.word)},
+            {'CardGame__example--wrong': wrongAnswers.includes(data.word)},
+            ]"
+          @click="makeChoice(data)"
         >
-        {{data.meanings[0].definitions[0].definition}}
+        {{data.displayText}}
         </li>
       </ul>
     </div>
@@ -36,20 +41,52 @@ export default {
   name: 'CardGame',
   data() {
     return {
-      choiceData: [],
+      exampleData: [],
+      correctAnswers: [],
+      wrongAnswers: [],
     };
   },
   methods: {
-    async getChoiceData() {
-      this.choiceData = await getMeanings([
+    async getexampleData() {
+      const meaningsData = await getMeanings([
         ...this.currentCards,
         ...this.availableWords.slice(0, this.currentCards.length * 3),
       ]);
+
+      meaningsData.sort(() => Math.random() - 0.5);
+
+      this.exampleData = meaningsData.map((meaningItem) => ({
+        ...meaningItem,
+        displayText: this.setDisplayText(meaningItem),
+      }));
+    },
+    setDisplayText(data) {
+      const randomChoice = (max) => Math.floor(Math.random() * (max - 1));
+
+      const meaning = data.meanings[randomChoice(data.meanings.length)];
+      const definition = meaning.definitions[randomChoice(meaning.definitions.length)];
+
+      return definition.definition;
+    },
+    makeChoice(selectedData) {
+      if (selectedData.word === this.currentCards[0]) {
+        this.correctAnswers = [...this.correctAnswers, selectedData.word];
+
+        setTimeout(() => {
+          this.$store.commit('clearCurrentCards');
+          this.$store.commit('changeCurrentCards');
+          this.getexampleData();
+          this.correctAnswers = [];
+          this.wrongAnswers = [];
+        }, 1500);
+      } else {
+        this.wrongAnswers = [...this.wrongAnswers, selectedData.word];
+      }
     },
   },
   mounted() {
     this.$store.commit('changeCurrentCards');
-    this.getChoiceData();
+    this.getexampleData();
   },
   computed: {
     ...mapGetters([
@@ -76,6 +113,33 @@ export default {
     &__answers {
       background-color: #f4f4f4;
       padding: 15px 20px;
+    }
+
+    &__example {
+      padding: 5px 10px;
+      margin: 10px;
+      background-color: rgb(207, 226, 235);
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgb(160, 211, 235);
+      }
+
+      &--correct {
+        background-color: rgb(79, 209, 118);
+
+        &:hover {
+          background-color: rgb(65, 185, 101);
+        }
+      }
+      &--wrong {
+        background-color: rgb(230, 129, 112);
+
+        &:hover {
+          background-color: rgb(204, 101, 83);
+        }
+      }
+
     }
   }
 

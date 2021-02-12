@@ -74,7 +74,7 @@ export default {
 
         setTimeout(() => {
           this.$store.commit('clearCurrentCards');
-          this.$store.commit('changeCurrentCards');
+          this.$store.dispatch('changeCurrentCards');
           this.getexampleData();
           this.correctAnswers = [];
           this.wrongAnswers = [];
@@ -85,7 +85,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('changeCurrentCards');
+    this.$store.dispatch('changeCurrentCards');
     this.getexampleData();
   },
   computed: {

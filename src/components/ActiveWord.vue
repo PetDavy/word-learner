@@ -47,18 +47,18 @@ export default {
     addWord() {
       this.$store.commit({
         type: 'addWord',
-        newWord: this.$store.state.activeWord.word,
+        newWord: this.$store.state.wordsStore.activeWord.word,
       });
 
-      setWords(this.$store.state.savedWords);
+      setWords(this.$store.state.wordsStore.savedWords);
     },
   },
   computed: {
     activeWord() {
-      return this.$store.state.activeWord.word;
+      return this.$store.state.wordsStore.activeWord.word;
     },
     meanings() {
-      return this.$store.state.activeWord.meanings;
+      return this.$store.state.wordsStore.activeWord.meanings;
     },
   },
 };

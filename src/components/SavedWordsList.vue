@@ -29,12 +29,12 @@ export default {
         wordIndex: index,
       });
 
-      setWords(this.$store.state.savedWords);
+      setWords(this.$store.state.wordsStore.savedWords);
     },
   },
   computed: {
     wordsList() {
-      return this.$store.state.savedWords;
+      return this.$store.state.wordsStore.savedWords;
     },
   },
 };

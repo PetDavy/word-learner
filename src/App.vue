@@ -25,13 +25,13 @@ export default {
   },
   computed: {
     inFindWord() {
-      return this.$store.state.modes.inFindWordMode;
+      return this.$store.state.wordsStore.modes.inFindWordMode;
     },
     inCardGame() {
-      return this.$store.state.modes.inCardGameMode;
+      return this.$store.state.wordsStore.modes.inCardGameMode;
     },
     inWordsShowMode() {
-      return this.$store.state.modes.inWordsShowMode;
+      return this.$store.state.wordsStore.modes.inWordsShowMode;
     },
   },
   mounted() {

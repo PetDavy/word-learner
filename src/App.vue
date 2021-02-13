@@ -3,6 +3,7 @@
   <main class="app__main">
     <ActiveWord v-if="inFindWord" />
     <SavedWordsList v-else-if="inWordsShowMode" />
+    <RepeatWordsList v-else-if="inRepeatWordsShowMode" />
     <CardGame v-else/>
   </main>
 
@@ -12,6 +13,7 @@
 import Header from './components/Header.vue';
 import ActiveWord from './components/ActiveWord.vue';
 import SavedWordsList from './components/SavedWordsList.vue';
+import RepeatWordsList from './components/RepeatWordsList.vue';
 import CardGame from './components/CardGame.vue';
 import { getSavedWords } from './api/api';
 
@@ -21,6 +23,7 @@ export default {
     Header,
     ActiveWord,
     SavedWordsList,
+    RepeatWordsList,
     CardGame,
   },
   computed: {
@@ -32,6 +35,9 @@ export default {
     },
     inWordsShowMode() {
       return this.$store.state.wordsStore.modes.inWordsShowMode;
+    },
+    inRepeatWordsShowMode() {
+      return this.$store.state.wordsStore.modes.inRepeatWordsShowMode;
     },
   },
   mounted() {

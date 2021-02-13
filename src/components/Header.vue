@@ -8,6 +8,15 @@
     >
       My Words
     </button>
+
+    <button
+      type="button"
+      class="header__btn"
+      @click="showWordsForRepeat"
+    >
+      Words for Repeat
+    </button>
+
     <button
       type="button"
       class="header__btn"
@@ -37,6 +46,12 @@ export default {
       this.$store.commit({
         type: 'changeMode',
         mode: 'inWordsShowMode',
+      });
+    },
+    showWordsForRepeat() {
+      this.$store.commit({
+        type: 'changeMode',
+        mode: 'inRepeatWordsShowMode',
       });
     },
   },

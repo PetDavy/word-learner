@@ -2,6 +2,7 @@ const baseModes = {
   inFindWordMode: false,
   inCardGameMode: false,
   inWordsShowMode: false,
+  inRepeatWordsShowMode: false,
 };
 
 export default {

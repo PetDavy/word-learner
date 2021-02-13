@@ -81,6 +81,7 @@ export default {
         }, 1500);
       } else {
         this.wrongAnswers = [...this.wrongAnswers, selectedData.word];
+        this.$store.commit('addToForRepeat');
       }
     },
   },

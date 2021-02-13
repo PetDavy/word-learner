@@ -5,6 +5,7 @@ export default {
     shownCards: [],
     availableWords: [],
     currentCards: [],
+    wordsForRepeat: [],
   },
   actions: {
     changeCurrentCards({ state, rootState }) {
@@ -24,6 +25,13 @@ export default {
   mutations: {
     clearCurrentCards(state) {
       state.currentCards = [];
+    },
+    addToForRepeat(state) {
+      if (state.wordsForRepeat.includes(state.currentCards[0])) {
+        return;
+      }
+
+      state.wordsForRepeat = [...state.wordsForRepeat, state.currentCards[0]];
     },
   },
   getters: {

@@ -24,7 +24,7 @@ export default {
   name: 'SavedWordsList',
   methods: {
     deleteWord(index) {
-      this.$store.commit({
+      this.$store.dispatch({
         type: 'deleteWord',
         wordIndex: index,
       });

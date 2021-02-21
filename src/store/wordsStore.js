@@ -30,11 +30,17 @@ export default {
   },
   actions: {
     deleteWord({ commit, state, rootState }, payload) {
-      if (rootState.gameStore.currentCards.includes(state.savedWords[payload.wordIndex])) {
+      let { wordIndex } = payload || { wordIndex: false };
+
+      if (wordIndex === false) {
+        wordIndex = state.savedWords.indexOf(state.activeWord.word);
+      }
+
+      if (rootState.gameStore.currentCards.includes(state.savedWords[wordIndex])) {
         commit('clearCurrentCards', null, { root: true });
       }
 
-      state.savedWords = state.savedWords.filter((word, index) => index !== payload.wordIndex);
+      state.savedWords = state.savedWords.filter((word, index) => index !== wordIndex);
     },
   },
   getters: {

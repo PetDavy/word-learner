@@ -56,12 +56,8 @@ export default {
       this.setHasError(word.meanings.length);
     },
     setHasError(meaningsLength) {
-      if (!meaningsLength) {
-        this.hasError = true;
-      } else {
-        this.hasError = false;
-        this.inputValue = '';
-      }
+      this.hasError = !meaningsLength;
+      this.inputValue = '';
     },
   },
 };

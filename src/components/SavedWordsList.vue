@@ -1,14 +1,14 @@
 <template>
   <ul class="WordList" v-if="wordsList.length">
     <li
-      v-for="(word, index) in wordsList"
-      :key="index"
+      v-for="word in wordsList"
+      :key="word"
     >
       <p class="WordList__word">{{word}}</p>
       <button
         type="button"
         class="WordList__btn-delete"
-        @click="deleteWord(index)"
+        @click="deleteWord(word)"
       >
         delete
       </button>
@@ -23,10 +23,10 @@ import { setWords } from '../api/api';
 export default {
   name: 'SavedWordsList',
   methods: {
-    deleteWord(index) {
+    deleteWord(word) {
       this.$store.dispatch({
         type: 'deleteWord',
-        wordIndex: index,
+        word,
       });
 
       setWords(this.$store.state.wordsStore.savedWords);
@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     wordsList() {
-      return this.$store.state.wordsStore.savedWords;
+      return this.$store.state.wordsStore.savedWordsList;
     },
   },
 };

@@ -32,11 +32,17 @@ export function getSavedWords() {
     return [];
   }
 
-  return words.split(',');
+  return words.split(',').reduce((wordsAccum, wordData) => {
+    const [word, score] = wordData.split(':');
+
+    return { ...wordsAccum, [word]: +score };
+  }, {});
 }
 
 export function setWords(words) {
-  localStorage.setItem('words', words);
+  const packedWords = Object.entries(words).map(([key, value]) => `${key}:${value}`);
+
+  localStorage.setItem('words', packedWords);
 }
 
 export function getSynonyms() {

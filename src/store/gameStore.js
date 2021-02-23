@@ -9,11 +9,11 @@ export default {
   },
   actions: {
     changeCurrentCards({ state, rootState }) {
-      state.availableWords = rootState.wordsStore.savedWords.filter((word) => (
+      state.availableWords = rootState.wordsStore.savedWordsList.filter((word) => (
         !state.shownCards.includes(word)
       ));
 
-      if (state.currentCards.length < CARDS_AMOUNT && rootState.wordsStore.savedWords.length) {
+      if (state.currentCards.length < CARDS_AMOUNT && rootState.wordsStore.savedWordsList.length) {
         state.currentCards = state.availableWords.sort(() => (
           Math.random() - 0.5
         )).splice(0, CARDS_AMOUNT);

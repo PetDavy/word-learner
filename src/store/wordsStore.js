@@ -9,7 +9,8 @@ export default {
   state: {
     modes: baseModes,
     activeWord: { word: 'No Word', meanings: [] },
-    savedWords: [],
+    savedWords: {}, // {'word': int: wordScore, ... }
+    savedWordsList: [],
   },
   mutations: {
     changeMode(state, payload) {
@@ -22,30 +23,30 @@ export default {
       state.activeWord = payload.word;
     },
     loadSavedWords(state, payload) {
-      state.savedWords = payload.words;
+      state.savedWords = { ...state.savedWords, ...payload.words };
+      state.savedWordsList = Object.keys(state.savedWords);
     },
     addWord(state, payload) {
-      state.savedWords = [...state.savedWords, payload.newWord];
+      state.savedWords = { ...state.savedWords, [payload.newWord]: 0 };
+      state.savedWordsList = [...state.savedWordsList, payload.newWord];
     },
   },
   actions: {
     deleteWord({ commit, state, rootState }, payload) {
-      let { wordIndex } = payload || { wordIndex: false };
+      const { word } = payload;
 
-      if (wordIndex === false) {
-        wordIndex = state.savedWords.indexOf(state.activeWord.word);
-      }
-
-      if (rootState.gameStore.currentCards.includes(state.savedWords[wordIndex])) {
+      if (rootState.gameStore.currentCards.includes(word)) {
         commit('clearCurrentCards', null, { root: true });
       }
 
-      state.savedWords = state.savedWords.filter((word, index) => index !== wordIndex);
+      state.savedWordsList = state.savedWordsList.filter((listWord) => listWord !== word);
+      delete state.savedWords[word];
     },
   },
   getters: {
     wordsCount(state, getters) {
-      return getters.currentCards.length || state.savedWords.length > getters.shownCards.length;
+      return getters.currentCards.length
+      || Object.keys(state.savedWords).length > getters.shownCards.length;
     },
   },
 };

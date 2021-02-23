@@ -63,7 +63,12 @@ export default {
       setWords(this.$store.state.wordsStore.savedWords);
     },
     removeWord() {
-      this.$store.dispatch('deleteWord');
+      this.$store.dispatch({
+        type: 'deleteWord',
+        word: this.$store.state.wordsStore.activeWord.word,
+      });
+
+      setWords(this.$store.state.wordsStore.savedWords);
     },
   },
   computed: {
@@ -74,7 +79,11 @@ export default {
       return this.$store.state.wordsStore.activeWord.meanings;
     },
     isSaved() {
-      return !!this.$store.state.wordsStore.savedWords.find((word) => word === this.activeWord);
+      if (!this.meanings.length) {
+        return false;
+      }
+
+      return this.$store.state.wordsStore.savedWords[this.activeWord] !== undefined;
     },
   },
 };

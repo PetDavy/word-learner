@@ -20,8 +20,6 @@ export default {
         const copyWords = [...state.availableWords];
         state.availableWords = [];
 
-        console.log(rootState.wordsStore.savedWords);
-
         for (let i = 0; i < arrLength; i += 1) {
           const randPosition = Math.floor(Math.random() * copyWords.length);
           const popWord = copyWords.splice(randPosition, 1);
@@ -33,8 +31,6 @@ export default {
           const newPos = Math.floor(Math.random() * state.availableWords.length + 1 + shiftDist);
           state.availableWords.splice(newPos, 0, popWord[0]);
         }
-
-        console.log(state.availableWords);
 
         state.currentCards = state.availableWords.splice(0, CARDS_AMOUNT);
 

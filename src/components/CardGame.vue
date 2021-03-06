@@ -35,7 +35,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { getMeanings } from '../api/api';
+import { getMeanings, setWords } from '../api/api';
 
 export default {
   name: 'CardGame',
@@ -69,8 +69,13 @@ export default {
       return definition.definition;
     },
     makeChoice(selectedData) {
-      if (selectedData.word === this.currentCards[0]) {
+      const cardWord = this.currentCards[0];
+      let cardWordScore = this.$store.state.wordsStore.savedWords[cardWord];
+
+      if (selectedData.word === cardWord) {
         this.correctAnswers = [...this.correctAnswers, selectedData.word];
+
+        cardWordScore += cardWordScore < 20 ? 1 : 0;
 
         setTimeout(() => {
           this.$store.commit('clearCurrentCards');
@@ -81,8 +86,12 @@ export default {
         }, 1500);
       } else {
         this.wrongAnswers = [...this.wrongAnswers, selectedData.word];
+        cardWordScore -= cardWordScore > 0 ? 1 : 0;
         this.$store.commit('addToForRepeat');
       }
+
+      this.$store.state.wordsStore.savedWords[cardWord] = cardWordScore;
+      setWords(this.$store.state.wordsStore.savedWords);
     },
   },
   mounted() {

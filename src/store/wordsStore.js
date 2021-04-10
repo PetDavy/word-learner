@@ -11,6 +11,7 @@ export default {
     activeWord: { word: 'No Word', meanings: [] },
     savedWords: {}, // {'word': int: wordScore, ... }
     savedWordsList: [],
+    updatedWords: [],
   },
   mutations: {
     changeMode(state, payload) {
@@ -30,6 +31,9 @@ export default {
       state.savedWords = { ...state.savedWords, [payload.newWord]: 0 };
       state.savedWordsList = [...state.savedWordsList, payload.newWord];
     },
+    loadUpdatedWords(state, payload) {
+      state.updatedWords = [...payload.words];
+    },
   },
   actions: {
     deleteWord({ commit, state, rootState }, payload) {
@@ -47,6 +51,9 @@ export default {
     wordsCount(state, getters) {
       return getters.currentCards.length
       || Object.keys(state.savedWords).length > getters.shownCards.length;
+    },
+    updatedWords(state) {
+      return state.updatedWords;
     },
   },
 };

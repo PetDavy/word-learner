@@ -44,6 +44,7 @@ export default {
       exampleData: [],
       correctAnswers: [],
       wrongAnswers: [],
+      isWrong: '',
     };
   },
   methods: {
@@ -53,7 +54,7 @@ export default {
         ...this.availableWords.slice(0, this.currentCards.length * 3),
       ]);
 
-      meaningsData.sort(() => Math.random() - 0.5);
+      meaningsData.sort(() => Math.random() - 0.5); // update later
 
       this.exampleData = meaningsData.map((meaningItem) => ({
         ...meaningItem,
@@ -75,7 +76,7 @@ export default {
       if (selectedData.word === cardWord) {
         this.correctAnswers = [...this.correctAnswers, selectedData.word];
 
-        cardWordScore += cardWordScore < 20 ? 1 : 0;
+        cardWordScore += cardWordScore < 20 && cardWord !== this.isWrong ? 1 : 0;
 
         setTimeout(() => {
           this.$store.commit('clearCurrentCards');
@@ -87,6 +88,8 @@ export default {
       } else {
         this.wrongAnswers = [...this.wrongAnswers, selectedData.word];
         cardWordScore -= cardWordScore > 0 ? 1 : 0;
+        this.isWrong = cardWord;
+
         this.$store.commit('addToForRepeat');
       }
 
@@ -103,6 +106,7 @@ export default {
       'wordsCount',
       'currentCards',
       'availableWords',
+      'updatedWords',
     ]),
   },
 };

@@ -45,6 +45,20 @@ export function setWords(words) {
   localStorage.setItem('words', packedWords);
 }
 
+export function getUpdated() {
+  const words = localStorage.getItem('updated');
+
+  if (!words) {
+    return [];
+  }
+
+  return words;
+}
+
+export function setUpdated(words) {
+  localStorage.setItem('updated', words);
+}
+
 export function getSynonyms() {
   return 'Synonyms';
 }

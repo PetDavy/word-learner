@@ -15,7 +15,7 @@ import ActiveWord from './components/ActiveWord.vue';
 import SavedWordsList from './components/SavedWordsList.vue';
 import RepeatWordsList from './components/RepeatWordsList.vue';
 import CardGame from './components/CardGame.vue';
-import { getSavedWords } from './api/api';
+import { getSavedWords, getUpdated } from './api/api';
 
 export default {
   name: 'App',
@@ -44,6 +44,11 @@ export default {
     this.$store.commit({
       type: 'loadSavedWords',
       words: getSavedWords(),
+    });
+
+    this.$store.commit({
+      type: 'loadUpdatedWords',
+      words: getUpdated(),
     });
 
     this.$store.commit({
